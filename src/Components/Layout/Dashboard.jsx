@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PokemonList from '../Pokemon/PokemonList'
+import PokemonList from '../Pokemon/PokemonList/PokemonList'
 
 const Dashboard=()=>{
     return (
