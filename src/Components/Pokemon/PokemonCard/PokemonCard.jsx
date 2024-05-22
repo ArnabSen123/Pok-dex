@@ -5,7 +5,7 @@ import "./PokemonCard.css";
 
 const PokemonCard = ({ pokemon }) => {
   const pokemonName = pokemon.name;
-  console.log(pokemonName);
+  //console.log(pokemonName);
   const pokemonURL = pokemon.url;
   const [pokemonDetails, setPokemonDetails] = useState([]);
 

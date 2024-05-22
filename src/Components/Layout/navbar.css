@@ -1,5 +1,6 @@
 .navbar{
-    background-color: brown !important;
+    background-color: gainsboro !important;
     color: white;
     padding-left: 20px;
+    margin: 0;
 }

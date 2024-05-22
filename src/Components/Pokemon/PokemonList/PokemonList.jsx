@@ -39,8 +39,8 @@ const PokemonList = () => {
             (pokemon) => pokemon && <PokemonCard pokemon={pokemon} />
           )}
         </div>
-        <div class="d-grid gap-2 col-6 mx-auto">
-          <button class="btn btn-primary" type="button" onClick={handleOnClick}>
+        <div className="d-grid gap-2 col-6 mx-auto">
+          <button className="btn btn-primary" type="button" onClick={handleOnClick}>
             Load More Pokemon
           </button>
         </div>
