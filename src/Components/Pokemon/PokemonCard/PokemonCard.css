@@ -1,4 +1,15 @@
 .card-img-top{
     height: 200px;
     width: 200px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+span{
+    border: 10px;
+}
+
+.abilities{
+    margin-right: 15px;
 }

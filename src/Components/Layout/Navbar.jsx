@@ -3,16 +3,20 @@ import "./navbar.css";
 import { useState } from "react";
 import axios from "axios";
 
-const Navbar = () => {
+const Navbar = ({onSearch}) => {
   const pokemonURL = "https://pokeapi.co/api/v2/pokemon";
-  const [pokemonSearch, SetPokemonSearch] = useState("");
+  const [pokemonSearch, setPokemonSearch] = useState("");
   const [pokemon, setPokemon] = useState(null);
 
+  const capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+  
   const getSearchedPokemon = async () => {
     try {
       const response = await axios.get(`${pokemonURL}/${pokemonSearch}`);
       setPokemon(response.data);
-      SetPokemonSearch("");
+      onSearch(pokemonSearch);
     } catch (error) {
       console.log(error);
       setPokemon(null);
@@ -74,7 +78,7 @@ const Navbar = () => {
                 aria-label="Search"
                 value={pokemonSearch}
                 onChange={(e) => {
-                  SetPokemonSearch(e.target.value);
+                  setPokemonSearch(e.target.value);
                 }}
               />
               <button className="btn btn-outline-success" type="submit">
@@ -84,26 +88,32 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-      {pokemon && (
-        <div className="container mt-5 pt-5">
-          <div className="card">
-            {pokemon.sprites?.front_default && (
-              <img
-                src={pokemon.sprites.front_default}
-                className="card-img-top"
-                alt={pokemon.name}
-              />
+      {(pokemon && pokemonSearch) && (
+        <div className="card">
+        <h6>{pokemon.id}</h6>
+        {pokemon.sprites?.front_default && (
+          <img
+            src={pokemon.sprites.front_default}
+            className="card-img-top"
+            alt="..."
+          />
+        )}
+        <div className="card-body">
+          <h3 className="card-title">
+            {capitalizeFirstLetter(pokemon.name)}
+          </h3>
+          <p className="card-text">
+            {pokemon.types.length > 0 && (<span className="abilities">
+              {pokemon.types[0].type.name}
+            </span>)}
+            {pokemon.types.length > 1 && (
+              <span className="abilities">
+                {pokemon.types[1].type.name}  
+              </span>
             )}
-            <div className="card-body">
-              <h5 className="card-title">{pokemon.name}</h5>
-              <p className="card-text">
-                This is a longer card with supporting text below as a natural
-                lead-in to additional content. This content is a little bit
-                longer.
-              </p>
-            </div>
-          </div>
+          </p>
         </div>
+      </div>
       )}
     </>
   );
