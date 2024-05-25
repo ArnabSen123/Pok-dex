@@ -2,20 +2,22 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./PokemonCard.css";
-import PokemonStats from "../PokemonStats/PokemonStats";
 
-const PokemonCard = ({ pokemon }) => {
+const PokemonCard = ({ pokemon , onPokemonClick}) => {
   const pokemonName = pokemon.name;
   //console.log(pokemonName);
   const pokemonURL = pokemon.url;
   const [pokemonDetails, setPokemonDetails] = useState([]);
+  const [pokemonStat, setPokemonStat] = useState(false);
 
   const capitalizeFirstLetter = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
   
   const handleOnClick = ()=>{
-    {pokemonDetails && <PokemonStats pokemonStat={pokemonDetails}/>}
+    setPokemonStat(true);
+    onPokemonClick(pokemonDetails);
+    console.log(pokemonStat);
   }
 
   useEffect(() => {
@@ -37,27 +39,27 @@ const PokemonCard = ({ pokemon }) => {
 
   return (
     <>
-      <div className="col">
-        <div className="card" onClick={handleOnClick}>
+      <div className="col" onClick={handleOnClick}>
+        <div className="card">
           <h6>{pokemonDetails.id}</h6>
           {pokemonDetails.sprites?.front_default && (
             <img
-              src={pokemonDetails.sprites.front_default}
+              src={pokemonDetails.sprites.other["official-artwork"].front_default}
               className="card-img-top"
               alt="..."
             />
           )}
           <div className="card-body">
             <h3 className="card-title">
-              {capitalizeFirstLetter(pokemon.name)}
+              {capitalizeFirstLetter(pokemonName)}
             </h3>
             <p className="card-text">
               {pokemonDetails.types.length > 0 && (<span className="abilities">
-                {pokemonDetails.types[0].type.name}
+                {capitalizeFirstLetter(pokemonDetails.types[0].type.name)}
               </span>)}
               {pokemonDetails.types.length > 1 && (
                 <span className="abilities">
-                  {pokemonDetails.types[1].type.name}
+                  {capitalizeFirstLetter(pokemonDetails.types[1].type.name)}
                   
                 </span>
               )}

@@ -7,6 +7,7 @@ import { useState } from "react";
 
 function App() {
   const [search, setSearch] = useState(null);
+  
   const handleSearch = (searchValue) => {
     setSearch(searchValue);
   };

@@ -93,7 +93,7 @@ const Navbar = ({onSearch}) => {
         <h6>{pokemon.id}</h6>
         {pokemon.sprites?.front_default && (
           <img
-            src={pokemon.sprites.front_default}
+            src={pokemon.sprites.other["official-artwork"].front_default}
             className="card-img-top"
             alt="..."
           />
@@ -104,11 +104,11 @@ const Navbar = ({onSearch}) => {
           </h3>
           <p className="card-text">
             {pokemon.types.length > 0 && (<span className="abilities">
-              {pokemon.types[0].type.name}
+              {capitalizeFirstLetter(pokemon.types[0].type.name)}
             </span>)}
             {pokemon.types.length > 1 && (
               <span className="abilities">
-                {pokemon.types[1].type.name}  
+                {capitalizeFirstLetter(pokemon.types[1].type.name)}  
               </span>
             )}
           </p>
