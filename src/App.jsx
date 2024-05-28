@@ -1,6 +1,6 @@
 import Navbar from "./Components/Layout/Navbar";
 import Dashboard from "./Components/Layout/Dashboard";
-import "bootstrap/dist/css/bootstrap.min.css";
+
 import "./App.css";
 import PokemonList from "./Components/Pokemon/PokemonList/PokemonList";
 import { useState } from "react";

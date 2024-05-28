@@ -44,6 +44,8 @@ const Navbar = ({onSearch}) => {
                   id="navbarDropdown"
                   role="button"
                   data-bs-toggle="dropdown"
+                  data-bs-target="#navbarNavDropdown"
+                  aria-controls="navbarNavDropdown"
                   aria-expanded="false"
                 >
                   Type
