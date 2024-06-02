@@ -5,13 +5,37 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Dropdown } from "bootstrap";
 import "./PokemonList.css";
 
-const PokemonList = () => {
+const PokemonList = ({pokemonType, clickSearchedPokemon}) => {
   const [pokemons, setPokemons] = useState([]);
   const [offSet, setOffSet] = useState(0);
   const [clickedPokemon, setCLickedPokemon] = useState(null);
   const [pokemonSpecies, setPokemonSpecies] = useState(null);
   const [evolutionChain, setEvolutionChain] = useState(null);
+  const [pokemonsType, setPokemonsType] = useState(pokemonType);
+  const [typeOffSet, setTypeOffSet] = useState(0);
+  const limit = 20;
 
+  useEffect(() => {
+    if (pokemonType) {
+      setPokemonsType(pokemonType);
+      setCLickedPokemon(null);
+    } else {
+      setPokemonsType(null);
+    }
+  }, [pokemonType]);
+  console.log(pokemonType);
+  console.log(pokemonsType);
+
+  useEffect(() => {
+    if(clickSearchedPokemon){
+      setCLickedPokemon(clickSearchedPokemon);
+      
+      console.log(clickSearchedPokemon);
+    }
+  }, [clickSearchedPokemon])
+
+  console.log(clickedPokemon);
+  
   const renderPokemonEvolutions = () => {
     if (!evolutionChain) return null;
     const evolutions = [];
@@ -23,16 +47,16 @@ const PokemonList = () => {
       const id = chain.species.url.split("/").slice(-2, -1)[0];
 
       evolutions.push(
-        <div class="col">
-          <div class="card" onClick={() => fetchPokemonDetails(id)}>
+        <div className="col">
+          <div className="card" onClick={() => fetchPokemonDetails(id)}>
             <img
               key={chain.species.name}
               src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`}
               alt={chain.species.name}
               className="img-fluid rounded-start"
             />
-            <div class="card-body">
-              <h5 class="card-title">
+            <div className="card-body">
+              <h5 className="card-title">
                 {capitalizeFirstLetter(chain.species.name)}
               </h5>
             </div>
@@ -103,6 +127,12 @@ const PokemonList = () => {
     });
   };
 
+  const handleOnType = () =>{
+    setTypeOffSet((prev)=>{
+       return prev+limit;
+    });
+  }
+
   const onPokemonClick = (clickedPokemon) => {
     fetchPokemonDetails(clickedPokemon.name);
   };
@@ -124,13 +154,14 @@ const PokemonList = () => {
   //{pokemons && <PokemonCard data={pokemons}/>}
   return (
     <>
-      {!clickedPokemon && (
+      {!clickedPokemon && !pokemonsType && (
         <div className="container">
           <div className="row row-cols-1 row-cols-md-4 g-4">
             {pokemons.map(
               (pokemon) =>
                 pokemon && (
                   <PokemonCard
+                    key={pokemon.name}
                     pokemon={pokemon}
                     onPokemonClick={onPokemonClick}
                   />
@@ -146,6 +177,32 @@ const PokemonList = () => {
               Load More Pokemon
             </button>
           </div>
+        </div>
+      )}
+      {!clickedPokemon && pokemonsType && (
+        <div className="container">
+          <div className="row row-cols-1 row-cols-md-4 g-4">
+            {pokemonsType.slice(0, typeOffSet+limit).map(
+              (data) =>
+                data.pokemon && (
+                  <PokemonCard
+                    key={data.pokemon.name}
+                    pokemon={data.pokemon}
+                    onPokemonClick={onPokemonClick}
+                  />
+                )
+            )}
+          </div>
+
+          {typeOffSet+limit < pokemonsType.length && (<div className="d-grid gap-2 col-6 mx-auto">
+            <button
+              className="btn btn-primary"
+              type="button"
+              onClick={handleOnType}
+            >
+              Load More
+            </button>
+          </div>)}
         </div>
       )}
       {clickedPokemon && (

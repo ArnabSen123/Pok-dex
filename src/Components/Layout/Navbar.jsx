@@ -1,22 +1,43 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./navbar.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import PokemonList from "../Pokemon/PokemonList/PokemonList";
 
-const Navbar = ({onSearch}) => {
+const Navbar = ({ onSearch, onType}) => {
   const pokemonURL = "https://pokeapi.co/api/v2/pokemon";
+  const typeURL = "https://pokeapi.co/api/v2/type/?limit=18";
   const [pokemonSearch, setPokemonSearch] = useState("");
   const [pokemon, setPokemon] = useState(null);
+  const [types, setTypes] = useState([]);
+  const [pokemonType, setPokemonType] = useState(null);
+  const [clickSearchedPokemon, setClickSearchedPokemon] = useState(null);
 
   const capitalizeFirstLetter = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
-  
+
+  useEffect(() => {
+    const getTypes = async () => {
+      try {
+        const response = await axios.get(typeURL);
+        setTypes(response.data.results);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getTypes();
+  }, []);
+
+  console.log(types);
   const getSearchedPokemon = async () => {
     try {
       const response = await axios.get(`${pokemonURL}/${pokemonSearch}`);
       setPokemon(response.data);
       onSearch(pokemonSearch);
+      setPokemonType(null);
+      setClickSearchedPokemon(null);
     } catch (error) {
       console.log(error);
       setPokemon(null);
@@ -28,6 +49,26 @@ const Navbar = ({onSearch}) => {
     getSearchedPokemon();
   };
 
+  const handleOnClick = async (name)=>{
+    try {
+      const response = await axios.get(`https://pokeapi.co/api/v2/type/${name}`);
+      setPokemonType(response.data.pokemon);
+      setPokemonSearch("");
+      onType(name);
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleOnPokemonClick = ()=>{
+    setClickSearchedPokemon(pokemon);
+    setPokemon(null);
+  }
+
+  console.log(clickSearchedPokemon);
+
+  //console.log(pokemonType);
   return (
     <>
       <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
@@ -51,24 +92,14 @@ const Navbar = ({onSearch}) => {
                   Type
                 </a>
                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Action
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Another action
-                    </a>
-                  </li>
-                  <li>
-                    <hr className="dropdown-divider" />
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Something else here
-                    </a>
-                  </li>
+                  {types &&
+                    types.map((type) => (
+                      <li>
+                        <a className="dropdown-item" href="#" onClick={()=>{handleOnClick(type.name)}}>
+                          {capitalizeFirstLetter(type.name)}
+                        </a>
+                      </li>
+                    ))}
                 </ul>
               </li>
             </ul>
@@ -90,33 +121,36 @@ const Navbar = ({onSearch}) => {
           </div>
         </div>
       </nav>
-      {(pokemon && pokemonSearch) && (
-        <div className="card">
-        <h6>{pokemon.id}</h6>
-        {pokemon.sprites?.front_default && (
-          <img
-            src={pokemon.sprites.other["official-artwork"].front_default}
-            className="card-img-top"
-            alt="..."
-          />
-        )}
-        <div className="card-body">
-          <h3 className="card-title">
-            {capitalizeFirstLetter(pokemon.name)}
-          </h3>
-          <p className="card-text">
-            {pokemon.types.length > 0 && (<span className="abilities">
-              {capitalizeFirstLetter(pokemon.types[0].type.name)}
-            </span>)}
-            {pokemon.types.length > 1 && (
-              <span className="abilities">
-                {capitalizeFirstLetter(pokemon.types[1].type.name)}  
-              </span>
-            )}
-          </p>
+      {pokemon && pokemonSearch && !pokemonType && (
+        <div className="card" onClick={handleOnPokemonClick}>
+          <h6>{pokemon.id}</h6>
+          {pokemon.sprites?.front_default && (
+            <img
+              src={pokemon.sprites.other["official-artwork"].front_default}
+              className="card-img-top"
+              alt="..."
+            />
+          )}
+          <div className="card-body">
+            <h3 className="card-title">
+              {capitalizeFirstLetter(pokemon.name)}
+            </h3>
+            <p className="card-text">
+              {pokemon.types.length > 0 && (
+                <span className="abilities">
+                  {capitalizeFirstLetter(pokemon.types[0].type.name)}
+                </span>
+              )}
+              {pokemon.types.length > 1 && (
+                <span className="abilities">
+                  {capitalizeFirstLetter(pokemon.types[1].type.name)}
+                </span>
+              )}
+            </p>
+          </div>
         </div>
-      </div>
       )}
+      {(pokemonType || clickSearchedPokemon) && <PokemonList pokemonType={pokemonType} clickSearchedPokemon={clickSearchedPokemon}/>}
     </>
   );
 };

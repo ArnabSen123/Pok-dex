@@ -7,6 +7,7 @@ const PokemonCard = ({ pokemon , onPokemonClick}) => {
   const pokemonName = pokemon.name;
   //console.log(pokemonName);
   const pokemonURL = pokemon.url;
+  //console.log(pokemonURL);
   const [pokemonDetails, setPokemonDetails] = useState([]);
   const [pokemonStat, setPokemonStat] = useState(false);
 
@@ -36,7 +37,7 @@ const PokemonCard = ({ pokemon , onPokemonClick}) => {
   if (!pokemonDetails || !pokemonDetails.types) {
     return <div>Loading...</div>;
   }
-
+  //console.log(pokemonDetails);
   return (
     <>
       <div className="col" onClick={handleOnClick}>
