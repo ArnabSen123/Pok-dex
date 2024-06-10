@@ -7,5 +7,57 @@
   margin-bottom: 20px;
 }
 
+.col-md-8{
+  display: flex;
+}
+
+.description{
+  position: relative;
+  margin-bottom: 20px !important;
+}
+
+.pokemondesc{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.details{
+  position: relative;
+  /*background-color: rgb(251, 167, 10);*/
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.evolution{
+  position: relative;
+  margin-top: 20px;
+}
+
+.evoPokemon{
+  position: relative;
+  display: flex;
+  width: 100%; 
+  height: 200px; 
+  object-fit: contain;
+  align-items: center;
+  justify-content: center; 
+  border: 1px solid gainsboro;
+  overflow: hidden; 
+}
+
+.pokemon{
+  width: 100%; 
+  height: 300px; 
+  object-fit: contain;
+  overflow: hidden;
+}
+
+
+
+
 
 

@@ -1,3 +1,7 @@
+.card-pokemon{
+    background-color: #F2F2F2;
+}
+
 .card-img-top{
     height: 200px;
     width: 200px;
@@ -11,5 +15,9 @@ span{
 }
 
 .abilities{
-    margin-right: 15px;
+    margin-right: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 2px;
+    border-radius: 5px;
 }

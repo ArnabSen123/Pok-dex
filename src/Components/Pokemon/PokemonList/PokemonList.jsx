@@ -4,8 +4,10 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Dropdown } from "bootstrap";
 import "./PokemonList.css";
+import { colours } from "../Utilities";
+import { capitalizeFirstLetter } from "../Utilities";
 
-const PokemonList = ({pokemonType, clickSearchedPokemon}) => {
+const PokemonList = ({ pokemonType, clickSearchedPokemon }) => {
   const [pokemons, setPokemons] = useState([]);
   const [offSet, setOffSet] = useState(0);
   const [clickedPokemon, setCLickedPokemon] = useState(null);
@@ -27,15 +29,15 @@ const PokemonList = ({pokemonType, clickSearchedPokemon}) => {
   console.log(pokemonsType);
 
   useEffect(() => {
-    if(clickSearchedPokemon){
+    if (clickSearchedPokemon) {
       setCLickedPokemon(clickSearchedPokemon);
-      
+
       console.log(clickSearchedPokemon);
     }
-  }, [clickSearchedPokemon])
+  }, [clickSearchedPokemon]);
 
   console.log(clickedPokemon);
-  
+
   const renderPokemonEvolutions = () => {
     if (!evolutionChain) return null;
     const evolutions = [];
@@ -53,12 +55,21 @@ const PokemonList = ({pokemonType, clickSearchedPokemon}) => {
               key={chain.species.name}
               src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`}
               alt={chain.species.name}
-              className="img-fluid rounded-start"
+              className="img-fluid rounded-start evoPokemon"
             />
             <div className="card-body">
               <h5 className="card-title">
                 {capitalizeFirstLetter(chain.species.name)}
               </h5>
+              {clickedPokemon.types.map((type, index) => (
+                <span
+                  className="abilities"
+                  key={index}
+                  style={{ backgroundColor: colours[type.type.name] }}
+                >
+                  {capitalizeFirstLetter(type.type.name)}
+                </span>
+              ))}
             </div>
           </div>
         </div>
@@ -79,10 +90,6 @@ const PokemonList = ({pokemonType, clickSearchedPokemon}) => {
         {evolutions}
       </div>
     );
-  };
-
-  const capitalizeFirstLetter = (str) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
   useEffect(() => {
@@ -127,11 +134,11 @@ const PokemonList = ({pokemonType, clickSearchedPokemon}) => {
     });
   };
 
-  const handleOnType = () =>{
-    setTypeOffSet((prev)=>{
-       return prev+limit;
+  const handleOnType = () => {
+    setTypeOffSet((prev) => {
+      return prev + limit;
     });
-  }
+  };
 
   const onPokemonClick = (clickedPokemon) => {
     fetchPokemonDetails(clickedPokemon.name);
@@ -182,27 +189,31 @@ const PokemonList = ({pokemonType, clickSearchedPokemon}) => {
       {!clickedPokemon && pokemonsType && (
         <div className="container">
           <div className="row row-cols-1 row-cols-md-4 g-4">
-            {pokemonsType.slice(0, typeOffSet+limit).map(
-              (data) =>
-                data.pokemon && (
-                  <PokemonCard
-                    key={data.pokemon.name}
-                    pokemon={data.pokemon}
-                    onPokemonClick={onPokemonClick}
-                  />
-                )
-            )}
+            {pokemonsType
+              .slice(0, typeOffSet + limit)
+              .map(
+                (data) =>
+                  data.pokemon && (
+                    <PokemonCard
+                      key={data.pokemon.name}
+                      pokemon={data.pokemon}
+                      onPokemonClick={onPokemonClick}
+                    />
+                  )
+              )}
           </div>
-
-          {typeOffSet+limit < pokemonsType.length && (<div className="d-grid gap-2 col-6 mx-auto">
-            <button
-              className="btn btn-primary"
-              type="button"
-              onClick={handleOnType}
-            >
-              Load More
-            </button>
-          </div>)}
+          
+          {typeOffSet + limit < pokemonsType.length && (
+            <div className="d-grid gap-2 col-6 mx-auto">
+              <button
+                className="btn btn-primary"
+                type="button"
+                onClick={handleOnType}
+              >
+                Load More Pokemon
+              </button>
+            </div>
+          )}
         </div>
       )}
       {clickedPokemon && (
@@ -212,7 +223,8 @@ const PokemonList = ({pokemonType, clickSearchedPokemon}) => {
             maxwidth: "540px",
             width: "750px",
             height: "750px",
-            margin: "auto",
+            position: "relative",
+            margin: "20px auto",
           }}
         >
           <div className="row g-0">
@@ -221,39 +233,47 @@ const PokemonList = ({pokemonType, clickSearchedPokemon}) => {
                 src={
                   clickedPokemon.sprites.other["official-artwork"].front_default
                 }
-                className="img-fluid rounded-start"
+                className="img-fluid rounded-start pokemon"
                 alt="..."
               />
             </div>
             <div className="col-md-8">
               <div className="card-body">
-                <section>
-                  <h5 className="card-title">
+                <section className="pokemondesc">
+                  <h4 className="card-title">
                     {capitalizeFirstLetter(clickedPokemon.name)}
-                  </h5>
-                  <p className="card-text">
+                  </h4>
+                  <p className="card-text description">
                     {pokemonSpecies &&
-                      pokemonSpecies.flavor_text_entries[0].flavor_text}
+                      pokemonSpecies.flavor_text_entries
+                        .find((entry) => entry.language.name === "en")
+                        ?.flavor_text.replace(/\n/g, " ")}
                   </p>
                 </section>
 
-                <section>
-                  <p>Height: {clickedPokemon.height / 10} m</p>
-                  <p>Weight: {clickedPokemon.weight / 10} kg</p>
-                  <p>Abilities: {clickedPokemon.abilities[0].ability.name}</p>
-                  <p>
+                <section className="details">
+                  <h5 className="card-title"> Details</h5>
+                  <span>
                     Category:{" "}
                     {pokemonSpecies &&
                       pokemonSpecies.genera.find(
                         (entry) => entry.language.name === "en"
                       ).genus}
-                  </p>
-                  
+                  </span>
+                  <span>
+                    Abilities: {clickedPokemon.abilities[0].ability.name}
+                  </span>
+                  <span>Height: {clickedPokemon.height / 10} m</span>
+                  <span>Weight: {clickedPokemon.weight / 10} kg</span>
                 </section>
 
                 <section>
                   {clickedPokemon.types.map((type, index) => (
-                    <span className="abilities" key={index}>
+                    <span
+                      className="abilities"
+                      key={index}
+                      style={{ backgroundColor: colours[type.type.name] }}
+                    >
                       {capitalizeFirstLetter(type.type.name)}
                     </span>
                   ))}
@@ -262,17 +282,17 @@ const PokemonList = ({pokemonType, clickSearchedPokemon}) => {
             </div>
           </div>
           <div className="evolution">
-            <h5 style={{ marginLeft: "20px" }}>Evolutions</h5>
+            <h5 style={{ marginLeft: "15px", marginBottom: "0px" }}>Evolutions</h5>
             {renderPokemonEvolutions()}
           </div>
           <div className="d-grid gap-2 col-6 mx-auto">
-          <button
-            className="btn btn-primary"
-            type="button"
-            onClick={() => setCLickedPokemon(null)}
-          >
-            Back to List
-          </button>
+            <button
+              className="btn btn-primary"
+              type="button"
+              onClick={() => setCLickedPokemon(null)}
+            >
+              Back to List
+            </button>
           </div>
         </div>
       )}

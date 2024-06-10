@@ -6,7 +6,7 @@ import PokemonList from "./Components/Pokemon/PokemonList/PokemonList";
 import { useState } from "react";
 
 function App() {
-  const [search, setSearch] = useState(null);
+  const [search, setSearch] = useState("");
   const [type, setType] = useState(null);
   
   const handleSearch = (searchValue) => {

@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./PokemonCard.css";
+import { colours } from "../Utilities";
+import { capitalizeFirstLetter } from "../Utilities";
 
 const PokemonCard = ({ pokemon , onPokemonClick}) => {
   const pokemonName = pokemon.name;
@@ -11,9 +13,7 @@ const PokemonCard = ({ pokemon , onPokemonClick}) => {
   const [pokemonDetails, setPokemonDetails] = useState([]);
   const [pokemonStat, setPokemonStat] = useState(false);
 
-  const capitalizeFirstLetter = (str) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  };
+  
   
   const handleOnClick = ()=>{
     setPokemonStat(true);
@@ -41,7 +41,7 @@ const PokemonCard = ({ pokemon , onPokemonClick}) => {
   return (
     <>
       <div className="col" onClick={handleOnClick}>
-        <div className="card">
+        <div className="card card-pokemon">
           <h6>{pokemonDetails.id}</h6>
           {pokemonDetails.sprites?.front_default && (
             <img
@@ -55,11 +55,11 @@ const PokemonCard = ({ pokemon , onPokemonClick}) => {
               {capitalizeFirstLetter(pokemonName)}
             </h3>
             <p className="card-text">
-              {pokemonDetails.types.length > 0 && (<span className="abilities">
+              {pokemonDetails.types.length > 0 && (<span className="abilities" style={{backgroundColor: colours[pokemonDetails.types[0].type.name]}}>
                 {capitalizeFirstLetter(pokemonDetails.types[0].type.name)}
               </span>)}
               {pokemonDetails.types.length > 1 && (
-                <span className="abilities">
+                <span className="abilities" style={{backgroundColor: colours[pokemonDetails.types[1].type.name]}} >
                   {capitalizeFirstLetter(pokemonDetails.types[1].type.name)}
                   
                 </span>

@@ -1,6 +1,38 @@
 .navbar{
-    background-color: gainsboro !important;
+    background-color: orange !important;
     color: white;
     padding-left: 20px;
     margin: 0;
 }
+
+.navbar-nav{
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.form-control{
+    border: 2px solid black;
+    border-radius: 10px;
+    width: 270px;
+}
+
+.btn:hover,
+.btn:focus {
+    background-color: initial; 
+    border-color: initial;    
+    color: initial;
+    
+}
+
+.btn{
+    background-color: orange;
+    border: 2px solid black;
+    border-radius: 10px;
+    color: black;
+}
+
+.typeName{
+    border: 1px solid black;
+}
+
+
