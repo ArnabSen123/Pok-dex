@@ -7,9 +7,9 @@ import { capitalizeFirstLetter } from "../Utilities";
 
 const PokemonCard = ({ pokemon , onPokemonClick}) => {
   const pokemonName = pokemon.name;
-  //console.log(pokemonName);
+  ////console.log(pokemonName);
   const pokemonURL = pokemon.url;
-  //console.log(pokemonURL);
+  ////console.log(pokemonURL);
   const [pokemonDetails, setPokemonDetails] = useState([]);
   const [pokemonStat, setPokemonStat] = useState(false);
 
@@ -18,7 +18,7 @@ const PokemonCard = ({ pokemon , onPokemonClick}) => {
   const handleOnClick = ()=>{
     setPokemonStat(true);
     onPokemonClick(pokemonDetails);
-    console.log(pokemonStat);
+    //console.log(pokemonStat);
   }
 
   useEffect(() => {
@@ -26,9 +26,9 @@ const PokemonCard = ({ pokemon , onPokemonClick}) => {
       try {
         const response = await axios.get(pokemonURL);
         setPokemonDetails(response.data);
-        console.log(pokemonDetails);
+        //console.log(pokemonDetails);
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     };
     getPokemonDetails();
@@ -37,7 +37,7 @@ const PokemonCard = ({ pokemon , onPokemonClick}) => {
   if (!pokemonDetails || !pokemonDetails.types) {
     return <div>Loading...</div>;
   }
-  //console.log(pokemonDetails);
+  ////console.log(pokemonDetails);
   return (
     <>
       <div className="col" onClick={handleOnClick}>

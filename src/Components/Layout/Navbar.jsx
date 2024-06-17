@@ -21,14 +21,14 @@ const Navbar = ({ onSearch, onType }) => {
         const response = await axios.get(typeURL);
         setTypes(response.data.results);
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     };
 
     getTypes();
   }, []);
 
-  console.log(types);
+  //console.log(types);
 
   const getSearchedPokemon = async () => {
     if (!pokemonSearch.trim()) {
@@ -42,7 +42,7 @@ const Navbar = ({ onSearch, onType }) => {
       setPokemonType(null);
       setClickSearchedPokemon(null);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       setPokemon(null);
     }
   };
@@ -61,18 +61,19 @@ const Navbar = ({ onSearch, onType }) => {
       setPokemonSearch("");
       onType(name);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
   const handleOnPokemonClick = () => {
     setClickSearchedPokemon(pokemon);
     setPokemon(null);
+    setPokemonSearch("");
   };
 
-  console.log(clickSearchedPokemon);
+  //console.log(clickSearchedPokemon);
 
-  //console.log(pokemonType);
+  ////console.log(pokemonType);
   return (
     <>
       <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
@@ -171,8 +172,8 @@ const Navbar = ({ onSearch, onType }) => {
                 alt="..."
               />
             )}
-            <div className="card-body">
-              <h3 className="card-title">
+            <div className="card-body"style={{marginTop: "20px"}}>
+              <h3 className="card-title" >
                 {capitalizeFirstLetter(pokemon.name)}
               </h3>
               <p className="card-text">
@@ -195,10 +196,10 @@ const Navbar = ({ onSearch, onType }) => {
               className="btn btn-primary"
               type="button"
               onClick={() => {
+                onSearch(null);
                 setClickSearchedPokemon(null);
                 setPokemonSearch("");
                 setPokemon(null);
-                onSearch(null);
               }}
               style={{ width: "350px", margin: "auto" }}
             >

@@ -25,18 +25,18 @@ const PokemonList = ({ pokemonType, clickSearchedPokemon }) => {
       setPokemonsType(null);
     }
   }, [pokemonType]);
-  console.log(pokemonType);
-  console.log(pokemonsType);
+  //console.log(pokemonType);
+  //console.log(pokemonsType);
 
   useEffect(() => {
     if (clickSearchedPokemon) {
       setCLickedPokemon(clickSearchedPokemon);
 
-      console.log(clickSearchedPokemon);
+      //console.log(clickSearchedPokemon);
     }
   }, [clickSearchedPokemon]);
 
-  console.log(clickedPokemon);
+  //console.log(clickedPokemon);
 
   const renderPokemonEvolutions = () => {
     if (!evolutionChain) return null;
@@ -80,7 +80,7 @@ const PokemonList = ({ pokemonType, clickSearchedPokemon }) => {
     getEvoluationChain(evolutionChain.chain);
     //getEvoluationChain(evolutionChain.chain.evolves_to[0]);
     //getEvoluationChain(evolutionChain.chain.evolves_to[0].evolves_to[0]);
-    //console.log(evolutions);
+    ////console.log(evolutions);
 
     return (
       <div
@@ -103,12 +103,12 @@ const PokemonList = ({ pokemonType, clickSearchedPokemon }) => {
           ...response.data.results,
         ]);
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     };
     getPokemons();
   }, [offSet]);
-  console.log(pokemons);
+  //console.log(pokemons);
 
   useEffect(() => {
     if (clickedPokemon) {
@@ -117,11 +117,11 @@ const PokemonList = ({ pokemonType, clickSearchedPokemon }) => {
           const response1 = await axios.get(clickedPokemon.species.url);
           setPokemonSpecies(response1.data);
           const response2 = await axios.get(response1.data.evolution_chain.url);
-          console.log(response1.data.evolution_chain.url);
+          //console.log(response1.data.evolution_chain.url);
           setEvolutionChain(response2.data);
-          console.log(response2.data);
+          //console.log(response2.data);
         } catch (error) {
-          console.log(error);
+          //console.log(error);
         }
       };
       getClickedPokemon();
@@ -151,13 +151,13 @@ const PokemonList = ({ pokemonType, clickSearchedPokemon }) => {
       );
       setCLickedPokemon(response.data);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
-  console.log(offSet);
+  //console.log(offSet);
   //const pokemonFetch = "https://pokeapi.co/api/v2/pokemon/";
-  //console.log(pokemonFetch);
+  ////console.log(pokemonFetch);
   //{pokemons && <PokemonCard data={pokemons}/>}
   return (
     <>
@@ -202,7 +202,7 @@ const PokemonList = ({ pokemonType, clickSearchedPokemon }) => {
                   )
               )}
           </div>
-          
+
           {typeOffSet + limit < pokemonsType.length && (
             <div className="d-grid gap-2 col-6 mx-auto">
               <button
@@ -289,7 +289,10 @@ const PokemonList = ({ pokemonType, clickSearchedPokemon }) => {
             <button
               className="btn btn-primary"
               type="button"
-              onClick={() => setCLickedPokemon(null)}
+              onClick={() => {
+                setCLickedPokemon(null);
+              }}
+              style={{position: "relative"}}
             >
               Back to List
             </button>

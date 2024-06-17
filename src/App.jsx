@@ -1,12 +1,10 @@
 import Navbar from "./Components/Layout/Navbar";
-import Dashboard from "./Components/Layout/Dashboard";
-
 import "./App.css";
 import PokemonList from "./Components/Pokemon/PokemonList/PokemonList";
 import { useState } from "react";
 
 function App() {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(null);
   const [type, setType] = useState(null);
   
   const handleSearch = (searchValue) => {
