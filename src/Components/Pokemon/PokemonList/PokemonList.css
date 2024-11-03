@@ -40,12 +40,14 @@
 .evoPokemon{
   position: relative;
   display: flex;
-  width: 100%; 
-  height: 200px; 
-  object-fit: contain;
-  align-items: center;
-  justify-content: center; 
-  border: 1px solid gainsboro;
+  margin: 15px auto;
+  width: 175px; 
+  height: 175px; 
+  object-fit: cover !important;
+  align-items: center !important;
+  justify-content: center !important; 
+  border: 1px solid gainsboro !important;
+  border-radius: 50% !important;
   overflow: hidden; 
 }
 

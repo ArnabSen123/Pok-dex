@@ -261,7 +261,7 @@ const PokemonList = ({ pokemonType, clickSearchedPokemon }) => {
                       ).genus}
                   </span>
                   <span>
-                    Abilities: {clickedPokemon.abilities[0].ability.name}
+                    Abilities: {capitalizeFirstLetter(clickedPokemon.abilities[0].ability.name)}
                   </span>
                   <span>Height: {clickedPokemon.height / 10} m</span>
                   <span>Weight: {clickedPokemon.weight / 10} kg</span>
